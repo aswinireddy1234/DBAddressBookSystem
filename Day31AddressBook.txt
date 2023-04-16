@@ -1,0 +1,403 @@
+Enter password: *******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| empwage            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+UC1 - Ability to create a Address Book Service DB
+
+mysql> create database Address_Book;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| address_book       |
+| empwage            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| address_book       |
+| empwage            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use Address_Book;
+Database changed
+mysql> select database();
++--------------+
+| database()   |
++--------------+
+| address_book |
++--------------+
+1 row in set (0.00 sec)
+
+UC2 - Ability to create a Address Book with details
+
+mysql> create table Address_Book (id int not null auto_increment, firstname varchar(20) not null, lastname varchar(20) not null, primary key (id));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> desc Address_Book;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| firstname | varchar(20) | NO   |     | NULL    |                |
+| lastname  | varchar(20) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+3 rows in set (0.03 sec)
+
+mysql> alter table Address_Book add city varchar(30) not null, address varchar(40) not null, state varchar(10) not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'address varchar(40) not null, state varchar(10) not null' at line 1
+mysql> alter table Address_Book add city varchar(30) not null, address varchar(40) not null, state varchar(10) not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'address varchar(40) not null, state varchar(10) not null' at line 1
+mysql> alter table Address_Book add (city varchar(30) not null, address varchar(40) not null, state varchar(10) not null);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Address_Book;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| firstname | varchar(20) | NO   |     | NULL    |                |
+| lastname  | varchar(20) | NO   |     | NULL    |                |
+| city      | varchar(30) | NO   |     | NULL    |                |
+| address   | varchar(40) | NO   |     | NULL    |                |
+| state     | varchar(10) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> alter table Address_Book add (zip varchar(6) not null, phonenumber varchar(12) not null, email varchar(15) not null);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Address_Book;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| id          | int         | NO   | PRI | NULL    | auto_increment |
+| firstname   | varchar(20) | NO   |     | NULL    |                |
+| lastname    | varchar(20) | NO   |     | NULL    |                |
+| city        | varchar(30) | NO   |     | NULL    |                |
+| address     | varchar(40) | NO   |     | NULL    |                |
+| state       | varchar(10) | NO   |     | NULL    |                |
+| zip         | varchar(6)  | NO   |     | NULL    |                |
+| phonenumber | varchar(12) | NO   |     | NULL    |                |
+| email       | varchar(15) | NO   |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+9 rows in set (0.00 sec)
+
+UC3 - Ability to insert new Contacts to Address Book
+
+mysql> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email) values ('Ashu', 'Reddy', 'Cumbum', 'cumbum', 'Andhrapradesh', '123456', '9876543210', 'abc23@gmail.com');
+ERROR 1406 (22001): Data too long for column 'state' at row 1
+mysql> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email) values ('Ashu', 'Reddy', 'Cumbum', 'cumbum', 'Ap', '123456', '9876543210', 'abc23@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email) values ('Ishu', 'Reddy', 'Ooty', 'Ooty', 'HP', '234567', '8765432109', 'def45@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email) values ('Sweety', 'Reddy', 'Ongole', 'Ongole', 'AP', '345678', '7654321098', 'ghi678@gmail.com');
+ERROR 1406 (22001): Data too long for column 'email' at row 1
+mysql> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email) values ('Aswini', 'Reddy', 'Nellore', 'Nellore', 'AP', '456789', '6303210987', 'jkl345@gmail.com');
+ERROR 1406 (22001): Data too long for column 'email' at row 1
+mysql> select * from Address_Book;
++----+-----------+----------+--------+---------+-------+--------+-------------+-----------------+
+| id | firstname | lastname | city   | address | state | zip    | phonenumber | email           |
++----+-----------+----------+--------+---------+-------+--------+-------------+-----------------+
+|  1 | Ashu      | Reddy    | cumbum | Cumbum  | Ap    | 123456 | 9876543210  | abc23@gmail.com |
+|  2 | Ishu      | Reddy    | Ooty   | Ooty    | HP    | 234567 | 8765432109  | def45@gmail.com |
++----+-----------+----------+--------+---------+-------+--------+-------------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email) values ('Aswini', 'Reddy', 'Nellore', 'Nellore', 'AP', '456789', '6303210987', 'jkl34@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email) values ('Sweety', 'Reddy', 'Ongole', 'Ongole', 'AP', '345678', '7654321098', 'ghi67@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Address_Book;
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+| id | firstname | lastname | city    | address | state | zip    | phonenumber | email           |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+|  1 | Ashu      | Reddy    | cumbum  | Cumbum  | Ap    | 123456 | 9876543210  | abc23@gmail.com |
+|  2 | Ishu      | Reddy    | Ooty    | Ooty    | HP    | 234567 | 8765432109  | def45@gmail.com |
+|  3 | Aswini    | Reddy    | Nellore | Nellore | AP    | 456789 | 6303210987  | jkl34@gmail.com |
+|  4 | Sweety    | Reddy    | Ongole  | Ongole  | AP    | 345678 | 7654321098  | ghi67@gmail.com |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+4 rows in set (0.00 sec)
+
+UC4 - Ability to edit existing contact person using their name
+
+mysql> update Address_Book set lastname = 'Chowdary' where firstname = 'Ashu';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Address_Book;
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+| id | firstname | lastname | city    | address | state | zip    | phonenumber | email           |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+|  1 | Ashu      | Chowdary | cumbum  | Cumbum  | Ap    | 123456 | 9876543210  | abc23@gmail.com |
+|  2 | Ishu      | Reddy    | Ooty    | Ooty    | HP    | 234567 | 8765432109  | def45@gmail.com |
+|  3 | Aswini    | Reddy    | Nellore | Nellore | AP    | 456789 | 6303210987  | jkl34@gmail.com |
+|  4 | Sweety    | Reddy    | Ongole  | Ongole  | AP    | 345678 | 7654321098  | ghi67@gmail.com |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+4 rows in set (0.00 sec)
+
+UC5 - Ability to delete details using person name
+
+mysql> delete Address_Book where firstname = 'Sweety';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where firstname = 'Sweety'' at line 1
+mysql> select * from Address_Book;
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+| id | firstname | lastname | city    | address | state | zip    | phonenumber | email           |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+|  1 | Ashu      | Chowdary | cumbum  | Cumbum  | Ap    | 123456 | 9876543210  | abc23@gmail.com |
+|  2 | Ishu      | Reddy    | Ooty    | Ooty    | HP    | 234567 | 8765432109  | def45@gmail.com |
+|  3 | Aswini    | Reddy    | Nellore | Nellore | AP    | 456789 | 6303210987  | jkl34@gmail.com |
+|  4 | Sweety    | Reddy    | Ongole  | Ongole  | AP    | 345678 | 7654321098  | ghi67@gmail.com |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> delete from Address_Book firstname = 'Sweety';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 'Sweety'' at line 1
+mysql> delete from Address_Book where firstname = 'Sweety';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Address_Book;
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+| id | firstname | lastname | city    | address | state | zip    | phonenumber | email           |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+|  1 | Ashu      | Chowdary | cumbum  | Cumbum  | Ap    | 123456 | 9876543210  | abc23@gmail.com |
+|  2 | Ishu      | Reddy    | Ooty    | Ooty    | HP    | 234567 | 8765432109  | def45@gmail.com |
+|  3 | Aswini    | Reddy    | Nellore | Nellore | AP    | 456789 | 6303210987  | jkl34@gmail.com |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+3 rows in set (0.00 sec)
+
+UC6 - Ability to Retrieve belonging to a city
+  
+mysql> select * from Address_Book where city = 'Ooty';
++----+-----------+----------+------+---------+-------+--------+-------------+-----------------+
+| id | firstname | lastname | city | address | state | zip    | phonenumber | email           |
++----+-----------+----------+------+---------+-------+--------+-------------+-----------------+
+|  2 | Ishu      | Reddy    | Ooty | Ooty    | HP    | 234567 | 8765432109  | def45@gmail.com |
++----+-----------+----------+------+---------+-------+--------+-------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> select * from Address_Book;
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+| id | firstname | lastname | city    | address | state | zip    | phonenumber | email           |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+|  1 | Ashu      | Chowdary | cumbum  | Cumbum  | Ap    | 123456 | 9876543210  | abc23@gmail.com |
+|  2 | Ishu      | Reddy    | Ooty    | Ooty    | HP    | 234567 | 8765432109  | def45@gmail.com |
+|  3 | Aswini    | Reddy    | Nellore | Nellore | AP    | 456789 | 6303210987  | jkl34@gmail.com |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+
+3 rows in set (0.00 sec)
+
+
+UC7 - Ability to Understand the Size of Address Book by City and State
+
+mysql> select city, count(*) as totalpersons from Address_Book group by city;
++---------+---------------+
+| city    | total_persons |
++---------+---------------+
+| cumbum  |             1 |
+| Ooty    |             1 |
+| Nellore |             1 |
++---------+---------------+
+3 rows in set (0.00 sec)
+
+
+UC8 - Ability to Retrieve Entries Sorted Alphabetically by Person’s name for a given city
+
+mysql> select city, count(*) as total_persons, groupcontact(firstname ORDER BY firstname) as names from Address_Book group by city;
++---------+---------------+--------------+
+| city    | total_persons | sorted_names |
++---------+---------------+--------------+
+| cumbum  |             1 | Ashu         |
+| Nellore |             1 | Aswini       |
+| Ooty    |             1 | Ishu         |
++---------+---------------+--------------+
+3 rows in set (0.04 sec)
+
+UC9 - Ability to identify each Address Book with name and Type
+
+
+mysql> alter table Address_Book add column type VARCHAR(10);
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Address_Book;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| id          | int         | NO   | PRI | NULL    | auto_increment |
+| firstname   | varchar(20) | NO   |     | NULL    |                |
+| lastname    | varchar(20) | NO   |     | NULL    |                |
+| city        | varchar(30) | NO   |     | NULL    |                |
+| address     | varchar(40) | NO   |     | NULL    |                |
+| state       | varchar(10) | NO   |     | NULL    |                |
+| zip         | varchar(6)  | NO   |     | NULL    |                |
+| phonenumber | varchar(12) | NO   |     | NULL    |                |
+| email       | varchar(15) | NO   |     | NULL    |                |
+| type        | varchar(10) | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+10 rows in set (0.04 sec)
+
+mysql> select * from Address_Book;
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+------+
+| id | firstname | lastname | city    | address | state | zip    | phonenumber | email           | type |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+------+
+|  1 | Ashu      | Chowdary | cumbum  | Cumbum  | Ap    | 123456 | 9876543210  | abc23@gmail.com | NULL |
+|  2 | Ishu      | Reddy    | Ooty    | Ooty    | HP    | 234567 | 8765432109  | def45@gmail.com | NULL |
+|  3 | Aswini    | Reddy    | Nellore | Nellore | AP    | 456789 | 6303210987  | jkl34@gmail.com | NULL |
+|  4 | Priya     | kumari   | Tenali  | Tenali  | HP    | 789012 | 6308976543  | pri13@gmail.com | NULL |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+------+
+4 rows in set (0.00 sec)
+
+mysql> update Address_Book set type = 'Family' where firstname = 'Aswini','Ashu';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ','Ashu'' at line 1
+mysql> update Address_Book set type = 'Family' where firstname = ('Aswini','Ashu');
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> update Address_Book set type = 'Family' where firstname = 'Ashu';
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Address_Book set type = 'Friend' where firstname = 'Aswini';
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Address_Book set type = 'Profession' where firstname = 'priya';
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Address_Book set type = 'Sister' where firstname = 'Ishu';
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Address_Book;
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+------------+
+| id | firstname | lastname | city    | address | state | zip    | phonenumber | email           | type       |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+------------+
+|  1 | Ashu      | Chowdary | cumbum  | Cumbum  | Ap    | 123456 | 9876543210  | abc23@gmail.com | Family     |
+|  2 | Ishu      | Reddy    | Ooty    | Ooty    | HP    | 234567 | 8765432109  | def45@gmail.com | Sister     |
+|  3 | Aswini    | Reddy    | Nellore | Nellore | AP    | 456789 | 6303210987  | jkl34@gmail.com | Friend     |
+|  4 | Priya     | kumari   | Tenali  | Tenali  | HP    | 789012 | 6308976543  | pri13@gmail.com | Profession |
++----+-----------+----------+---------+---------+-------+--------+-------------+-----------------+------------+
+4 rows in set (0.00 sec)
+
+UC10 - Ability to get number of contact persons
+
+mysql> select type, count(*) as count_by_type from Address_Book group by type;
++------------+---------------+
+| type       | count_by_type |
++------------+---------------+
+| Family     |             1 |
+| Sister     |             1 |
+| Friend     |             1 |
+| Profession |             1 |
++------------+---------------+
+4 rows in set (0.00 sec)
+
+UC11 - Ability to add person to both Friend and Family
+
+mysql> insert into Address_Book (firstname,lastname,city,address,state,zip,phonenumber,email,type) values ('Sowmya,'Chowdary','Chennai','Chennai','TamilNadu','224567','9873653563','sow23@gmail.com','Friend');
+    '>
+    '> insert into Address_Book (firstname,lastname,city,address,state,zip,phonenumber,email,type) values ('Sowmya,'Chowdary','Chennai','Chennai','TamilNadu','224567','9873653563','sow23@gmail.com','Friend');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Chowdary','Chennai','Chennai','TamilNadu','224567','9873653563','sow23@gmail.com' at line 1
+    '>
+    '> insert into Address_Book(firstname,lastname,city,address,state,zip,phonenumber,email,type) values ('Sowmya,'Chowdary','Chennai','2-14 Anna_Nagar','TamilNadu','224567','9873653563','sow23@gmail.com','Friend');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Chowdary','Chennai','2-14 Anna_Nagar','TamilNadu','224567','9873653563','sow23@g' at line 1
+mysql> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email, type) values ('Sowmya','Chowdary','2-14 Anna_Nagar','Chennai','TamilNadu','224567','9873653563','sow23@gmail.com','Friend');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email, type) values ('Chandana,'Yadav','7-144 T_Nagar','Chennai','TamilNadu','245678','9812345578','Chan23@gmail.com','Family');
+    '>
+    '> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email, type) values ('Chandana','Yadav','7-144 T_Nagar','Chennai','TamilNadu','245678','9812345578','Chan23@gmail.com','Family');
+    '> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email, type) values ('Chandana','Yadav','7-144 T_Nagar','Chennai','TamilNadu','245678','9812345578','Chan23@gmail.com','Family');
+    '>
+mysql> insert into Address_Book (firstname, lastname, address, city, state, zip, phonenumber, email, type) values ('Chandana','Yadav','7-123 T_Nagar','Chennai','TamiNadu','234567','8971236540','cha24@gmail.com','Family');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from Address_Book;
++----+-----------+----------+---------+-----------------+-----------+--------+-------------+-----------------+------------+
+| id | firstname | lastname | city    | address         | state     | zip    | phonenumber | email           | type       |
++----+-----------+----------+---------+-----------------+-----------+--------+-------------+-----------------+------------+
+|  1 | Ashu      | Chowdary | cumbum  | Cumbum          | Ap        | 123456 | 9876543210  | abc23@gmail.com | Family     |
+|  2 | Ishu      | Reddy    | Ooty    | Ooty            | HP        | 234567 | 8765432109  | def45@gmail.com | Sister     |
+|  3 | Aswini    | Reddy    | Nellore | Nellore         | AP        | 456789 | 6303210987  | jkl34@gmail.com | Friend     |
+|  4 | Priya     | kumari   | Tenali  | Tenali          | HP        | 789012 | 6308976543  | pri13@gmail.com | Profession |
+|  5 | Sowmya    | Chowdary | Chennai | 2-14 Anna_Nagar | TamilNadu | 224567 | 9873653563  | sow23@gmail.com | Friend     |
+|  6 | Chandana  | Yadav    | Chennai | 7-123 T_Nagar   | TamiNadu  | 234567 | 8971236540  | cha24@gmail.com | Family     |
++----+-----------+----------+---------+-----------------+-----------+--------+-------------+-----------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select type, count(*) as count_by_type from Address_Book group by type;
++------------+---------------+
+| type       | count_by_type |
++------------+---------------+
+| Family     |             2 |
+| Sister     |             1 |
+| Friend     |             2 |
+| Profession |             1 |
++------------+---------------+
+4 rows in set (0.00 sec)
+
+
+
+                CREATE TABLE IF NOT EXISTS `address_book`.`address_book` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `firstname` VARCHAR(20) NOT NULL,
+  `lastname` VARCHAR(20) NOT NULL,
+  `city` VARCHAR(30) NOT NULL,
+  `address` VARCHAR(40) NOT NULL,
+  `state` VARCHAR(10) NOT NULL,
+  `zip` VARCHAR(6) NOT NULL,
+  `phonenumber` VARCHAR(12) NOT NULL,
+  `email` VARCHAR(15) NOT NULL,
+  `type` VARCHAR(10) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 7
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci
